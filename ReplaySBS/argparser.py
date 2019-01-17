@@ -1,6 +1,12 @@
 import argparse
 
 argparser = argparse.ArgumentParser()
+
+argparser.add_argument("-e", "--editing", help=("checks the designated map or local replays for evidence of replay editing. "
+                                                "When set with -m, checks the top -n maps (defaults to 50). "
+                                                "When set with -m and -u, checks only that user's replay on the given map. Cannot be set with just -u. "
+                                                "When set with -l, checks locally stored replays. "), action="store_true")
+
 argparser.add_argument("-m", "--map", dest="map_id",
                     help="checks the leaderboard on the given beatmap id against each other")
 
@@ -8,8 +14,8 @@ argparser.add_argument("-u", "--user", dest="user_id",
                     help="checks only the given user against the other leaderboard replays. Must be set with -m")
 
 argparser.add_argument("-l", "--local", help=("compare scores under the user/ directory to a beatmap leaderboard (if set with -m), "
-                                             "a score set by a user on a beatmap (if set with -m and -u) or other locally "
-                                            "saved replays (default behavior)"), action="store_true")
+                                              "a score set by a user on a beatmap (if set with -m and -u) or other locally "
+                                              "saved replays (default behavior)"), action="store_true")
 
 argparser.add_argument("-t", "--threshold", help="sets the similarity threshold to print results that score under it. Defaults to 20", type=int, default=20)
 

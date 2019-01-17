@@ -13,6 +13,13 @@ def main():
     Checks certain replays against certain others depending on what flags were set.
     """
 
+    if(args.editing):
+        if(args.local):
+            for osr_path in PATH_REPLAYS_USER:
+                replay = Replay.from_path(osr_path)
+                check_editing(replay)
+            return
+        
     
     if(args.local):
         if(args.map_id and args.user_id):
@@ -78,5 +85,10 @@ def compare_replays(replay1, replay2):
     if(mean < args.threshold):
         print("{:.1f} similarity {}".format(mean, players))
  
+
+def check_editing(replay):
+    result = replay.check_editing()
+    print(result)
+
 if __name__ == '__main__':
     main()

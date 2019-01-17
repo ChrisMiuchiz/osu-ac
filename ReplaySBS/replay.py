@@ -50,6 +50,20 @@ class Replay:
         self.player_name = player_name
         self.play_data = replay_data
 
+    def check_editing(self):
+        """
+        Checks if the Replay has signs of replay editing by calculating the second derivative (acceleration)
+        of the x,y location numpy arrays and looking for sharp changes
+        """
+        np.set_printoptions(threshold=np.nan)
+        np.set_printoptions(suppress=True)
+
+        with open('test.txt', 'a') as file:
+            file.write(str(self.as_array_with_timestamps()))
+            file.write("\n\nBREAK HERE \n\n")
+            file.write(str(np.diff(self.as_array_with_timestamps(), n=2, axis=0)))
+        return
+
     @staticmethod
     def from_map(map_id, user_id):
         """
@@ -214,14 +228,18 @@ class Replay:
         return (clean, inter)
 
 
-    def as_array(self):
+    def as_array_with_timestamps(self):
         """
-        Gets the playdata as a np array with time as the first axis.
-        [ x_1 x_2 ... x_n
+        Gets the playdata as a np array with time, x, and y as the rows
+        Note that time is the culminative time through the replay, not the time difference between each event.
+        [ t_1 t_2 ... t_n
+          x_1 x_2 ... x_n
           y_1 y_2 ... y_n ]
         """
+        time_array = np.array([(e.time_since_previous_action) for e in self.play_data])
+        time_array = time_array.cumsum()
 
-        return np.array([(e.x, e.y) for e in self.play_data])
+        return np.array([(time, e.x, e.y) for time, e in zip(time_array, self.play_data)])
 
     def as_list_with_timestamps(self):
         """Gets the playdata as a list of tuples of absolute time, x and y."""
