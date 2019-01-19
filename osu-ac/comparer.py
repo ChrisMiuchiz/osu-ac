@@ -79,9 +79,10 @@ class Comparer:
         """
 
         mean = result[0]
+        sigma = result[1]
         if(mean > self.threshold):
             return
-        print("{:.1f} similarity ({} vs {})".format(mean, player1, player2))
+        print("{:.1f} similarity, {:.1f} std deviation ({} vs {})".format(mean, sigma, player1, player2))
 
     @staticmethod
     def _compare_two_replays(replay1, replay2):
