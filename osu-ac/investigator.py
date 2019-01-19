@@ -5,5 +5,13 @@ class Investigator:
     See Also:
         Comparer
     """
-    def __init__(self):
-        pass
+
+    def __init__(self, replay):
+        """
+        Initializes an Investigator instance.
+
+        Args:
+            Replay replay: The replay to check for cheats.
+        """
+
+        self.replay = replay
